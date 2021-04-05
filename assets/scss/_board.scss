@@ -1,0 +1,334 @@
+// original image https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_Pieces_Sprite.svg
+// licensed under CC BY-SA 3.0
+
+#board {
+    margin: 20px auto;
+    background: #8ca2ad;
+    border-collapse: collapse;
+    text-align: center;
+
+    td {
+        width: 80px;
+        height: 80px;
+        padding: 8px 5px 2px;
+
+        a {
+            width: 70px;
+            height: 70px;
+            display: inline-block;
+            vertical-align: bottom;
+            background: url(../img/pieces.png) no-repeat -140px -140px;
+            background-size: 430px 140px;
+
+            &.wk {
+                background-position: 0 -4px;
+            }
+
+            &.wq {
+                background-position: -72px -4px;
+            }
+
+            &.wb {
+                background-position: -144px -4px;
+            }
+
+            &.wn {
+                background-position: -216px -4px;
+            }
+
+            &.wr {
+                background-position: -287px -4px;
+            }
+
+            &.wp {
+                background-position: -358px -4px;
+            }
+
+            &.bk {
+                background-position: 0 -75px;
+            }
+
+            &.bq {
+                background-position: -72px -75px;
+            }
+
+            &.bb {
+                background-position: -144px -75px;
+            }
+
+            &.bn {
+                background-position: -216px -75px;
+            }
+
+            &.br {
+                background-position: -287px -75px;
+            }
+
+            &.bp {
+                background-position: -358px -75px;
+            }
+        }
+    }
+
+    td.current * {
+        color: #c00 !important;
+    }
+
+    td.target {
+        position: relative;
+
+        a {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: none;
+
+                &:before {
+                    color: darkred;
+                }
+            }
+
+            &:before {
+                content: "•";
+                color: red;
+                position: absolute;
+                font-size: 3em;
+                top: 5px;
+                left: 31px;
+            }
+        }
+    }
+
+    tr:nth-child(odd) td:nth-child(odd), tr:nth-child(even) td:nth-child(even) {
+        background: #c9ccce;
+    }
+
+    .rank, .file {
+        width: auto;
+        height: auto;
+        background-color: #fff !important;
+        padding: 3px;
+    }
+
+    .file {
+        padding: 0 5px;
+    }
+
+    .w {
+        color: #fff !important;
+    }
+
+    .b {
+        color: #000;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #board {
+        td {
+            width: 60px;
+            height: 60px;
+
+            a {
+                width: 50px;
+                height: 50px;
+                background-size: 300px 100px;
+
+                &.wq {
+                    background-position: -53px -2px;
+                }
+
+                &.wb {
+                    background-position: -104px -2px;
+                }
+
+                &.wn {
+                    background-position: -153px -2px;
+                }
+
+                &.wr {
+                    background-position: -203px -2px;
+                }
+
+                &.wp {
+                    background-position: -250px -2px;
+                }
+
+                &.bk {
+                    background-position: -2px -53px;
+                }
+
+                &.bq {
+                    background-position: -51px -53px;
+                }
+
+                &.bb {
+                    background-position: -102px -53px;
+                }
+
+                &.bn {
+                    background-position: -151px -53px;
+                }
+
+                &.br {
+                    background-position: -201px -53px;
+                }
+
+                &.bp {
+                    background-position: -248px -53px;
+                }
+            }
+        }
+
+        td.target {
+            a {
+                &:before {
+                    top: 21px;
+                    left: 23px;
+                }
+            }
+        }
+
+        .fa-4x {
+            font-size: 3em !important;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    #board {
+        margin-top: 0;
+        margin-left: -15px;
+        margin-right: -15px;
+
+        td {
+            width: 40px;
+            height: 40px;
+
+            &.file {
+                padding: 0 1px;
+            }
+
+            a {
+                width: 30px;
+                height: 30px;
+                background-size: 180px 60px;
+
+                &.wk {
+                    background-position: 0 -3px;
+                }
+
+                &.wq {
+                    background-position: -30px -3px;
+                }
+
+                &.wb {
+                    background-position: -60px -3px;
+                }
+
+                &.wn {
+                    background-position: -90px -3px;
+                }
+
+                &.wr {
+                    background-position: -120px -3px;
+                }
+
+                &.wp {
+                    background-position: -149px -3px;
+                }
+
+                &.bk {
+                    background-position: 1px -34px;
+                }
+
+                &.bq {
+                    background-position: -29px -34px;
+                }
+
+                &.bb {
+                    background-position: -59px -34px;
+                }
+
+                &.bn {
+                    background-position: -89px -34px;
+                }
+
+                &.br {
+                    background-position: -119px -34px;
+                }
+
+                &.bp {
+                    background-position: -149px -34px;
+                }
+            }
+
+            &.target {
+                a {
+                    &:before {
+                        top: 10px;
+                        left: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media print {
+    #board {
+        border: 1px solid #000;
+
+        td {
+            border: 1px solid #000;
+
+            a {
+                background-size: 300px 100px;
+
+                &.wq {
+                    background-position: -53px 0;
+                }
+
+                &.wb {
+                    background-position: -104px 0;
+                }
+
+                &.wn {
+                    background-position: -153px 0;
+                }
+
+                &.wr {
+                    background-position: -203px 0;
+                }
+
+                &.wp {
+                    background-position: -250px 0;
+                }
+
+                &.bk {
+                    background-position: -2px -53px;
+                }
+
+                &.bq {
+                    background-position: -51px -53px;
+                }
+
+                &.bb {
+                    background-position: -102px -53px;
+                }
+
+                &.bn {
+                    background-position: -151px -53px;
+                }
+
+                &.br {
+                    background-position: -201px -53px;
+                }
+
+                &.bp {
+                    background-position: -248px -53px;
+                }
+            }
+        }
+    }
+}

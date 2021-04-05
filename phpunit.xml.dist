@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit 
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    bootstrap="vendor/autoload.php"
+>
+    <testsuites>
+        <testsuite name="ChessBundle test suite">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory>src</directory>
+        </include>
+    </coverage>
+
+    <!-- see https://www.tomasvotruba.cz/blog/2019/03/28/how-to-mock-final-classes-in-phpunit/ -->
+    <extensions>
+        <extension class="PChess\ChessBundle\Tests\BypassFinalHook"/>
+    </extensions>
+</phpunit>

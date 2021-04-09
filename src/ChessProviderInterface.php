@@ -6,5 +6,6 @@ use PChess\Chess\Chess;
 
 interface ChessProviderInterface
 {
-    public function getChess(?string $fen = null): Chess;
+    /** @param mixed $identifier */
+    public function getChess($identifier = null, ?string $fen = null): Chess;
 }

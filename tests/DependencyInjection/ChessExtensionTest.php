@@ -13,7 +13,7 @@ final class ChessExtensionTest extends TestCase
         /** @var ContainerBuilder&\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerBuilder::class);
         $extension = new ChessExtension();
-        $extension->load([], $container);
+        $extension->load(['chess' => ['output_service' => 'foo']], $container);
         self::assertNotNull($extension);
     }
 }

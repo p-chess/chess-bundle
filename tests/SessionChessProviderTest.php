@@ -23,14 +23,14 @@ final class SessionChessProviderTest extends TestCase
     {
         $provider = new SessionChessProvider(self::getStack(), 'chess');
         $this->expectException(\InvalidArgumentException::class);
-        $provider->getChess('invalid!');
+        $provider->getChess(null, 'invalid!');
     }
 
     public function testGetChessWithValidFen(): void
     {
         $provider = new SessionChessProvider(self::getStack(), 'chess');
         $fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
-        $chess = $provider->getChess($fen);
+        $chess = $provider->getChess(null, $fen);
         self::assertEquals($fen, $chess->fen());
     }
 

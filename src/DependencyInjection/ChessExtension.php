@@ -16,11 +16,8 @@ final class ChessExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('chess.output_service', $config['output_service']);
         $container->setParameter('chess.session_name', $config['session_name']);
-        $container->setParameter('chess.routes.start', $config['routes']['start'] ?? '');
-        $container->setParameter('chess.routes.cancel', $config['routes']['cancel'] ?? '');
-        $container->setParameter('chess.routes.end', $config['routes']['end'] ?? '');
-        $container->setParameter('chess.routes.promotion', $config['routes']['promotion'] ?? '');
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.xml');
     }

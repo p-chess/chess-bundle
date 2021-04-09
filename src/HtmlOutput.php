@@ -7,33 +7,26 @@ use PChess\Chess\Chess;
 use PChess\Chess\Output\HtmlOutput as ChessHtmlOutput;
 use PChess\Chess\Output\Link;
 use PChess\Chess\Piece;
-use Symfony\Component\Routing\RouterInterface;
 
-final class HtmlOutput extends ChessHtmlOutput
+abstract class HtmlOutput extends ChessHtmlOutput
 {
-    private RouterInterface $router;
+    /** @param mixed $identifier */
+    abstract public function getStartUrl(string $from, $identifier = null): string;
 
-    private string $startRoute;
+    /** @param mixed $identifier */
+    abstract public function getEndUrl(string $from, string $to, $identifier = null): string;
 
-    private string $cancelRoute;
+    /** @param mixed $identifier */
+    abstract public function getCancelUrl($identifier = null): string;
 
-    private string $endRoute;
+    /** @param mixed $identifier */
+    abstract public function getPromotionUrl(string $from, string $to, $identifier = null): string;
 
-    private string $promotionRoute;
-
-    public function __construct(RouterInterface $router, string $start, string $cancel, string $end, string $promotion)
-    {
-        $this->router = $router;
-        $this->startRoute = $start;
-        $this->cancelRoute = $cancel;
-        $this->endRoute = $end;
-        $this->promotionRoute = $promotion;
-    }
-
-    public function generateLinks(Chess $chess, ?string $from = null): array
+    /** @param mixed $identifier */
+    public function generateLinks(Chess $chess, ?string $from = null, $identifier = null): array
     {
         $links = [];
-        $allowedMoves = $this->getAllowedMoves($chess, $from);
+        $allowedMoves = self::getAllowedMoves($chess, $from);
         /** @var int $i */
         foreach ($chess->board as $i => $piece) {
             $url = null;
@@ -41,24 +34,24 @@ final class HtmlOutput extends ChessHtmlOutput
             $san = Board::algebraic($i);
             if (null === $from) {
                 // move not started
-                if (null !== $piece && isset($allowedMoves[$san]) && $this->isTurn($chess, $piece)) {
-                    $url = $this->router->generate($this->startRoute, ['from' => $san]);
+                if (null !== $piece && isset($allowedMoves[$san]) && self::isTurn($chess, $piece)) {
+                    $url = $this->getStartUrl($san, $identifier);
                 }
             } elseif ($from !== $san) {
                 // move started
-                if ($this->canMove($from, $i, $allowedMoves)) {
+                if (self::canMove($from, $i, $allowedMoves)) {
                     if (null !== $movingPiece = $chess->board[Board::SQUARES[$from]]) {
                         if ('p' === $movingPiece->getType() && (0 === Board::rank($i) || 7 === Board::rank($i))) {
-                            $url = $this->router->generate($this->promotionRoute, ['from' => $from, 'to' => $san]);
+                            $url = $this->getPromotionUrl($from, $san, $identifier);
                         } else {
-                            $url = $this->router->generate($this->endRoute, ['from' => $from, 'to' => $san]);
+                            $url = $this->getEndUrl($from, $san, $identifier);
                         }
                     }
                     $class = 'target';
                 }
             } else {
                 // restart move
-                $url = $this->router->generate($this->cancelRoute);
+                $url = $this->getCancelUrl($identifier);
                 $class = 'current';
             }
             $links[$i] = new Link($class, $url);
@@ -70,7 +63,7 @@ final class HtmlOutput extends ChessHtmlOutput
     /**
      * @return array<string, array<int, string>>
      */
-    private function getAllowedMoves(Chess $chess, ?string $from = null): array
+    private static function getAllowedMoves(Chess $chess, ?string $from = null): array
     {
         $moves = $chess->moves($from ? Board::SQUARES[$from] : null);
         $return = [];
@@ -81,15 +74,15 @@ final class HtmlOutput extends ChessHtmlOutput
         return $return;
     }
 
-    private function isTurn(Chess $chess, Piece $piece): bool
+    private static function isTurn(Chess $chess, Piece $piece): bool
     {
         return $piece->getColor() === $chess->turn;
     }
 
     /**
-     * @param array<string, array> $allowedMoves
+     * @param array<string, array> $allowedMoves Moves resulting from self::getAllowedMoves()
      */
-    private function canMove(string $from, int $to, array $allowedMoves): bool
+    private static function canMove(string $from, int $to, array $allowedMoves): bool
     {
         $toSan = Board::algebraic($to);
         if (!isset($allowedMoves[$from])) {

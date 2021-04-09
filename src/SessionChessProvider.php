@@ -4,7 +4,6 @@ namespace PChess\ChessBundle;
 
 use PChess\Chess\Board;
 use PChess\Chess\Chess;
-use PChess\Chess\Validation;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -22,35 +21,34 @@ final class SessionChessProvider implements ChessProviderInterface
         $this->name = $name;
     }
 
-    public function getChess(?string $fen = null): Chess
+    /** @param mixed $identifier */
+    public function getChess($identifier = null, ?string $fen = null): Chess
     {
-        $chess = $this->getSession()->has($this->name) ? $this->getSession()->get($this->name) : new Chess();
-        if (null !== $fen) {
-            if (false === $chess->load($fen)) {
-                $error = Validation::validateFen($fen);
-                throw new \InvalidArgumentException('Invalid FEN! '.$error['error']);
-            }
-            $this->save($chess);
-        }
+        $name = $this->name.$identifier;
+        $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen);
+        $this->save($chess, $identifier);
 
         return $chess;
     }
 
-    public function restart(): void
+    /** @param mixed $identifier */
+    public function restart($identifier = null): void
     {
-        $this->getSession()->remove($this->name);
+        $this->getSession()->remove($this->name.$identifier);
     }
 
-    public function save(Chess $chess): void
+    /** @param mixed $identifier */
+    public function save(Chess $chess, $identifier = null): void
     {
-        $this->getSession()->set($this->name, $chess);
+        $this->getSession()->set($this->name.$identifier, $chess);
     }
 
-    public function reverse(): void
+    /** @param mixed $identifier */
+    public function reverse($identifier = null): void
     {
-        $chess = $this->getChess();
+        $chess = $this->getChess($identifier);
         $chess->board->reverse();
-        $this->save($chess);
+        $this->save($chess, $identifier);
     }
 
     /**

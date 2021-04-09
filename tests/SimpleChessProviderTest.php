@@ -17,6 +17,6 @@ final class SimpleChessProviderTest extends TestCase
     {
         $provider = new SimpleChessProvider();
         $this->expectException(\InvalidArgumentException::class);
-        $provider->getChess('invalid!');
+        $provider->getChess(null, 'invalid!');
     }
 }

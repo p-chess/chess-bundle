@@ -21,11 +21,14 @@ final class SessionChessProvider implements ChessProviderInterface
         $this->name = $name;
     }
 
-    /** @param mixed $identifier */
-    public function getChess($identifier = null, ?string $fen = null): Chess
+    /**
+     * @param mixed                                  $identifier
+     * @param array<int, \PChess\Chess\History>|null $history
+     */
+    public function getChess($identifier = null, ?string $fen = null, ?array $history = null): Chess
     {
         $name = $this->name.$identifier;
-        $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen);
+        $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen, $history);
         $this->save($chess, $identifier);
 
         return $chess;

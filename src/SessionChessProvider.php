@@ -2,7 +2,6 @@
 
 namespace PChess\ChessBundle;
 
-use PChess\Chess\Board;
 use PChess\Chess\Chess;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -52,20 +51,6 @@ final class SessionChessProvider implements ChessProviderInterface
         $chess = $this->getChess($identifier);
         $chess->board->reverse();
         $this->save($chess, $identifier);
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    public function getAllowedMoves(Chess $chess, ?string $from = null): array
-    {
-        $moves = $chess->moves($from ? Board::SQUARES[$from] : null);
-        $return = [];
-        foreach ($moves as $move) {
-            $return[$move->from][] = (string) $move->san;
-        }
-
-        return $return;
     }
 
     private function getSession(): SessionInterface

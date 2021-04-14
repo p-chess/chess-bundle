@@ -91,10 +91,7 @@
             &:before {
                 content: "•";
                 color: red;
-                position: absolute;
                 font-size: 3em;
-                top: 5px;
-                left: 31px;
             }
         }
     }
@@ -183,8 +180,9 @@
         td.target {
             a {
                 &:before {
-                    top: 21px;
-                    left: 23px;
+                    position: absolute;
+                    margin-left: -0.2em;
+                    margin-top: -0.2em;
                 }
             }
         }
@@ -198,8 +196,6 @@
 @media (max-width: 575.98px) {
     #board {
         margin-top: 0;
-        margin-left: -15px;
-        margin-right: -15px;
 
         td {
             width: 40px;
@@ -266,8 +262,9 @@
             &.target {
                 a {
                     &:before {
-                        top: 10px;
-                        left: 14px;
+                        position: absolute;
+                        margin-left: -0.2em;
+                        margin-top: -0.5em;
                     }
                 }
             }

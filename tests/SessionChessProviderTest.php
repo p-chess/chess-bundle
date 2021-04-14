@@ -4,6 +4,7 @@ namespace PChess\ChessBundle\Tests;
 
 use PChess\Chess\Board;
 use PChess\Chess\Chess;
+use PChess\ChessBundle\Mover;
 use PChess\ChessBundle\SessionChessProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,8 +63,7 @@ final class SessionChessProviderTest extends TestCase
 
     public function testGetAllowedMoves(): void
     {
-        $provider = new SessionChessProvider(self::getStack(), 'chess');
-        self::assertNotNull($provider->getAllowedMoves(new Chess()));
+        self::assertNotNull(Mover::getAllowedMoves(new Chess()));
     }
 
     public function testSessionException(): void

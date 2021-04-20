@@ -3,6 +3,7 @@
 namespace PChess\ChessBundle;
 
 use PChess\Chess\Chess;
+use PChess\Chess\History;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -20,11 +21,7 @@ final class SessionChessProvider implements ChessProviderInterface
         $this->name = $name;
     }
 
-    /**
-     * @param mixed                                  $identifier
-     * @param array<int, \PChess\Chess\History>|null $history
-     */
-    public function getChess($identifier = null, ?string $fen = null, ?array $history = null): Chess
+    public function getChess($identifier = null, ?string $fen = null, ?History $history = null): Chess
     {
         $name = $this->name.$identifier;
         $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen, $history);

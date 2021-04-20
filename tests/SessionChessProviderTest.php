@@ -4,7 +4,6 @@ namespace PChess\ChessBundle\Tests;
 
 use PChess\Chess\Board;
 use PChess\Chess\Chess;
-use PChess\ChessBundle\Mover;
 use PChess\ChessBundle\SessionChessProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,11 +58,6 @@ final class SessionChessProviderTest extends TestCase
         $provider = new SessionChessProvider(self::getStack(), 'chess');
         $provider->reverse();
         self::assertTrue($provider->getChess()->board->isReversed());
-    }
-
-    public function testGetAllowedMoves(): void
-    {
-        self::assertNotNull(Mover::getAllowedMoves(new Chess()));
     }
 
     public function testSessionException(): void

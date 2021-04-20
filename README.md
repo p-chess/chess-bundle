@@ -76,4 +76,13 @@ Don't forget to update your frontend files, using npm or yarn.
 
 The final result should be something like this:
 
-<img src="https://user-images.githubusercontent.com/179866/113510143-9b982700-9559-11eb-9152-a8e7977326fa.png" alt="">
+<img src="https://user-images.githubusercontent.com/179866/114995898-92cf1b80-9e9e-11eb-8e99-75a60bbba6bd.png" alt="">
+
+### Persisting a Chess object
+
+You can easily save a `Chess` object into Doctrine (or other kind of mapping libraries), using two fields/properties:
+`fen`, and `history`.
+The first one is a simple string. The second one can be a `simple_array` (for Doctrine), where you should put
+the result of `Mover::getHistoryStrings()` method.
+When retrieving an object, you should use `fen` and the result of `Mover::getHistoryEntries()` to build back your
+`Chess` object.

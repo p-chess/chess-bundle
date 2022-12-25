@@ -10,20 +10,15 @@ use PChess\Chess\Piece;
 
 abstract class HtmlOutput extends ChessHtmlOutput
 {
-    /** @param mixed $identifier */
-    abstract public function getStartUrl(string $from, $identifier = null): string;
+    abstract public function getStartUrl(string $from, mixed $identifier = null): string;
 
-    /** @param mixed $identifier */
-    abstract public function getEndUrl(string $from, string $to, $identifier = null): string;
+    abstract public function getEndUrl(string $from, string $to, mixed $identifier = null): string;
 
-    /** @param mixed $identifier */
-    abstract public function getCancelUrl($identifier = null): string;
+    abstract public function getCancelUrl(mixed $identifier = null): string;
 
-    /** @param mixed $identifier */
-    abstract public function getPromotionUrl(string $from, string $to, $identifier = null): string;
+    abstract public function getPromotionUrl(string $from, string $to, mixed $identifier = null): string;
 
-    /** @param mixed $identifier */
-    public function generateLinks(Chess $chess, ?string $from = null, $identifier = null): array
+    public function generateLinks(Chess $chess, ?string $from = null, mixed $identifier = null): array
     {
         $links = [];
         $allowedMoves = self::getAllowedMoves($chess, $from);
@@ -80,7 +75,7 @@ abstract class HtmlOutput extends ChessHtmlOutput
     }
 
     /**
-     * @param array<string, array> $allowedMoves Moves resulting from self::getAllowedMoves()
+     * @param array<string, array<int, string>> $allowedMoves Moves resulting from self::getAllowedMoves()
      */
     private static function canMove(string $from, int $to, array $allowedMoves): bool
     {

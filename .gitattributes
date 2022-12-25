@@ -1,6 +1,5 @@
 /.git*            export-ignore
 /.php-cs-fixer.*  export-ignore
-/buddy.yml        export-ignore
 /phpstan*.neon    export-ignore
 /phpunit.xml.dist export-ignore
 /README.md        export-ignore

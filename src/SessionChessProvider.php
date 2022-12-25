@@ -9,19 +9,13 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SessionChessProvider implements ChessProviderInterface
 {
-    private RequestStack $requestStack;
-
     private ?SessionInterface $session = null;
 
-    private string $name;
-
-    public function __construct(RequestStack $requestStack, string $name)
+    public function __construct(private RequestStack $requestStack, private string $name)
     {
-        $this->requestStack = $requestStack;
-        $this->name = $name;
     }
 
-    public function getChess($identifier = null, ?string $fen = null, ?History $history = null): Chess
+    public function getChess(mixed $identifier = null, ?string $fen = null, ?History $history = null): Chess
     {
         $name = $this->name.$identifier;
         $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen, $history);
@@ -30,20 +24,17 @@ final class SessionChessProvider implements ChessProviderInterface
         return $chess;
     }
 
-    /** @param mixed $identifier */
-    public function restart($identifier = null): void
+    public function restart(mixed $identifier = null): void
     {
         $this->getSession()->remove($this->name.$identifier);
     }
 
-    /** @param mixed $identifier */
-    public function save(Chess $chess, $identifier = null): void
+    public function save(Chess $chess, mixed $identifier = null): void
     {
         $this->getSession()->set($this->name.$identifier, $chess);
     }
 
-    /** @param mixed $identifier */
-    public function reverse($identifier = null): void
+    public function reverse(mixed $identifier = null): void
     {
         $chess = $this->getChess($identifier);
         $chess->board->reverse();
@@ -54,7 +45,7 @@ final class SessionChessProvider implements ChessProviderInterface
     {
         if (null === $this->session) {
             if (null === $request = $this->requestStack->getCurrentRequest()) {
-                throw new \RuntimeException('Cannot find session.');
+                throw new \UnexpectedValueException('Cannot find session.');
             }
             $this->session = $request->getSession();
         }

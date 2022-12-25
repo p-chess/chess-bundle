@@ -13,7 +13,6 @@ final class Mover
 {
     /**
      * Get an array of moves with starting squares as keys.
-
      *
      * @return array<string, array<int, string>>
      */

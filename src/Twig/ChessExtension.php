@@ -8,11 +8,8 @@ use Twig\TwigFunction;
 
 final class ChessExtension extends AbstractExtension
 {
-    private HtmlOutput $output;
-
-    public function __construct(HtmlOutput $output)
+    public function __construct(private HtmlOutput $output)
     {
-        $this->output = $output;
     }
 
     /**

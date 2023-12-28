@@ -15,7 +15,7 @@ final class SessionChessProvider implements ChessProviderInterface
     {
     }
 
-    public function getChess(mixed $identifier = null, ?string $fen = null, ?History $history = null): Chess
+    public function getChess(mixed $identifier = null, string $fen = null, History $history = null): Chess
     {
         $name = $this->name.$identifier;
         $chess = $this->getSession()->has($name) ? $this->getSession()->get($name) : new Chess($fen, $history);

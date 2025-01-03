@@ -2,7 +2,7 @@
 
 namespace PChess\ChessBundle\DependencyInjection;
 
-use PChess\ChessBundle\Twig\ChessExtension as TwigExtension;
+use PChess\ChessBundle\Twig\ChessRuntime;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -13,6 +13,6 @@ final class CompilerPass implements CompilerPassInterface
         /** @var string $service */
         $service = $container->getParameter('chess.output_service');
         $output = $container->getDefinition($service);
-        $container->getDefinition(TwigExtension::class)->replaceArgument(0, $output);
+        $container->getDefinition(ChessRuntime::class)->replaceArgument(0, $output);
     }
 }

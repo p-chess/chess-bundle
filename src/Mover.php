@@ -16,7 +16,7 @@ final class Mover
      *
      * @return array<string, array<int, string>>
      */
-    public static function getAllowedMoves(Chess $chess, string $from = null): array
+    public static function getAllowedMoves(Chess $chess, ?string $from = null): array
     {
         $moves = $chess->moves($from ? Board::SQUARES[$from] : null);
         $return = [];

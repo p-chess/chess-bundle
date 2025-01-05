@@ -18,7 +18,7 @@ abstract class HtmlOutput extends ChessHtmlOutput
 
     abstract public function getPromotionUrl(string $from, string $to, mixed $identifier = null): string;
 
-    public function generateLinks(Chess $chess, string $from = null, mixed $identifier = null): array
+    public function generateLinks(Chess $chess, ?string $from = null, mixed $identifier = null): array
     {
         $links = [];
         $allowedMoves = self::getAllowedMoves($chess, $from);
@@ -58,7 +58,7 @@ abstract class HtmlOutput extends ChessHtmlOutput
     /**
      * @return array<string, array<int, string>>
      */
-    private static function getAllowedMoves(Chess $chess, string $from = null): array
+    private static function getAllowedMoves(Chess $chess, ?string $from = null): array
     {
         $moves = $chess->moves($from ? Board::SQUARES[$from] : null);
         $return = [];

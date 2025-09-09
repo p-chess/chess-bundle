@@ -2,7 +2,6 @@
 
 namespace PChess\ChessBundle\Twig;
 
-use PChess\ChessBundle\HtmlOutput;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

@@ -5,7 +5,6 @@ namespace PChess\ChessBundle\Twig;
 use PChess\Chess\Chess;
 use PChess\ChessBundle\HtmlOutput;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 final class ChessRuntime extends AbstractExtension
 {

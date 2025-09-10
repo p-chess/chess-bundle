@@ -7,7 +7,7 @@ use PChess\Chess\Move;
 use PChess\Chess\Piece;
 use PChess\ChessBundle\Mover;
 
-final class MoverTest extends \PHPUnit\Framework\TestCase
+final class MoverTest extends PHPUnit\Framework\TestCase
 {
     public function testGetAllowedMoves(): void
     {

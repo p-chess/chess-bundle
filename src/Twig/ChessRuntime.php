@@ -8,7 +8,7 @@ use Twig\Extension\AbstractExtension;
 
 final class ChessRuntime extends AbstractExtension
 {
-    public function __construct(private HtmlOutput $output)
+    public function __construct(private readonly HtmlOutput $output)
     {
     }
 

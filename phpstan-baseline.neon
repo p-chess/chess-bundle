@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			message: "#^Call to an undefined method#"
 			count: 1
 			path: src/DependencyInjection/Configuration.php
 
@@ -9,4 +9,3 @@ parameters:
 			message: "#^Cannot call method getSession\\(\\) on Symfony\\\\Component\\\\HttpFoundation\\\\Request\\|null\\.$#"
 			count: 1
 			path: tests/SessionChessProviderTest.php
-

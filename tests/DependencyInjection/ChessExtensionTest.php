@@ -10,8 +10,8 @@ final class ChessExtensionTest extends TestCase
 {
     public function testLoadSetParameters(): void
     {
-        /** @var ContainerBuilder&\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->createMock(ContainerBuilder::class);
+        /** @var ContainerBuilder&\PHPUnit\Framework\MockObject\Stub $container */
+        $container = $this->createStub(ContainerBuilder::class);
         $extension = new ChessExtension();
         $extension->load(['chess' => ['output_service' => 'foo']], $container);
         self::assertNotNull($extension);

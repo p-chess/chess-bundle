@@ -50,7 +50,7 @@ move_end:
 ## Usage
 
 You can inject a service implementing `\PChess\ChessBundle\ChessProviderInterface` in your controller, then
-implement different actions, using provided `\PChess\Chess\Chess` object.
+implement different actions, using the provided `\PChess\Chess\Chess` object.
 
 In your template, you can use the Twig function `chess_render(chess)` to render the board.
 If you need to pass an identifier, use `chess_render(chess, identifier)` instead.
@@ -80,7 +80,7 @@ The final result should be something like this:
 
 ### Persisting a Chess object
 
-You can easily save a `Chess` object into Doctrine (or other kind of mapping libraries), using two fields/properties:
+You can easily save a `Chess` object into Doctrine (or other kinds of mapping libraries), using two fields/properties:
 `fen`, and `history`.
 The first one is a simple string. The second one can be a `simple_array` (for Doctrine), where you should put
 the result of `Mover::getHistoryStrings()` method.

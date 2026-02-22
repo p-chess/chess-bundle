@@ -1,11 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method#"
-			count: 1
-			path: src/DependencyInjection/Configuration.php
-
-		-
 			message: "#^Cannot call method getSession\\(\\) on Symfony\\\\Component\\\\HttpFoundation\\\\Request\\|null\\.$#"
 			count: 1
 			path: tests/SessionChessProviderTest.php
+
+		-
+			identifier: staticMethod.alreadyNarrowedType
+			count: 12
+			path: tests

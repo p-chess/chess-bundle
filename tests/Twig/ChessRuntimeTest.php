@@ -11,7 +11,7 @@ final class ChessRuntimeTest extends TestCase
 {
     public function testRender(): void
     {
-        $output = $this->createStub(HtmlOutput::class);
+        $output = self::createStub(HtmlOutput::class);
         $runtime = new ChessRuntime($output);
         self::assertIsString($runtime->render(new Chess()));
     }

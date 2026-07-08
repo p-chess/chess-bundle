@@ -11,7 +11,7 @@ final class ChessBundleTest extends TestCase
     public function testBuild(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container->expects(self::once())->method('addCompilerPass');
+        $container->expects($this->once())->method('addCompilerPass');
         $bundle = new ChessBundle();
         $bundle->build($container);
     }

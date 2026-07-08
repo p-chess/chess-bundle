@@ -4,6 +4,10 @@
 
 Run `composer require p-chess/chess-bundle`
 
+## Local development
+
+This project is designed to run inside Docker via `docker compose`, with helper targets in `Makefile`.
+
 ## Configuration
 
 Create a service that extends `PChess\ChessBundle\HtmlOutput` and

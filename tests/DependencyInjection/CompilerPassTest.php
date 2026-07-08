@@ -13,10 +13,10 @@ final class CompilerPassTest extends TestCase
     {
         /** @var Definition&\PHPUnit\Framework\MockObject\MockObject $definition */
         $definition = $this->createMock(Definition::class);
-        $definition->expects(self::once())->method('replaceArgument');
+        $definition->expects($this->once())->method('replaceArgument');
         /** @var ContainerBuilder&\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerBuilder::class);
-        $container->expects(self::once())->method('getParameter')->with('chess.output_service')->willReturn('foo');
+        $container->expects($this->once())->method('getParameter')->with('chess.output_service')->willReturn('foo');
         $container->method('getDefinition')->willReturn($definition);
         $pass = new CompilerPass();
         $pass->process($container);

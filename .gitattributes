@@ -1,5 +1,7 @@
+/docker*          export-ignore
 /.git*            export-ignore
 /.php-cs-fixer.*  export-ignore
+/Makefile         export-ignore
 /phpstan*.neon    export-ignore
 /phpunit.xml.dist export-ignore
 /README.md        export-ignore

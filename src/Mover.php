@@ -18,7 +18,7 @@ final class Mover
      */
     public static function getAllowedMoves(Chess $chess, ?string $from = null): array
     {
-        $moves = $chess->moves($from ? Board::SQUARES[$from] : null);
+        $moves = $chess->moves(null === $from ? null : Board::SQUARES[$from] ?? null);
         $return = [];
         foreach ($moves as $move) {
             $return[$move->from][] = (string) $move->san;

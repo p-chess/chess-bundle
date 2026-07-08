@@ -5,3 +5,4 @@ parameters:
         - tests
 includes:
     - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

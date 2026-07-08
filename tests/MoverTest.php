@@ -1,13 +1,16 @@
 <?php
 
+namespace PChess\ChessBundle\Tests;
+
 use PChess\Chess\Chess;
 use PChess\Chess\Entry;
 use PChess\Chess\History;
 use PChess\Chess\Move;
 use PChess\Chess\Piece;
 use PChess\ChessBundle\Mover;
+use PHPUnit\Framework\TestCase;
 
-final class MoverTest extends PHPUnit\Framework\TestCase
+final class MoverTest extends TestCase
 {
     public function testGetAllowedMoves(): void
     {

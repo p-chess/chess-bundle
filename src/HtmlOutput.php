@@ -21,11 +21,12 @@ abstract class HtmlOutput extends ChessHtmlOutput
     public function generateLinks(Chess $chess, ?string $from = null, mixed $identifier = null): array
     {
         $links = [];
-        $allowedMoves = self::getAllowedMoves($chess, $from);
+        $allowedMoves = Mover::getAllowedMoves($chess, $from);
         /** @var int $i */
         foreach ($chess->board as $i => $piece) {
             $url = null;
             $class = null;
+            $unsafe = false;
             $san = Board::algebraic($i);
             if (null === $from) {
                 // move not started
@@ -37,9 +38,11 @@ abstract class HtmlOutput extends ChessHtmlOutput
                 if (self::canMove($from, $i, $allowedMoves)) {
                     if (null !== $movingPiece = $chess->board[Board::SQUARES[$from]]) {
                         if ('p' === $movingPiece->getType() && (0 === Board::rank($i) || 7 === Board::rank($i))) {
+                            // the promotion page just asks which piece to promote to: nothing changes yet
                             $url = $this->getPromotionUrl($from, $san, $identifier);
                         } else {
                             $url = $this->getEndUrl($from, $san, $identifier);
+                            $unsafe = true;
                         }
                     }
                     $class = 'target';
@@ -49,24 +52,10 @@ abstract class HtmlOutput extends ChessHtmlOutput
                 $url = $this->getCancelUrl($identifier);
                 $class = 'current';
             }
-            $links[$i] = new Link($class, $url);
+            $links[$i] = new Link($class, $url, $unsafe);
         }
 
         return $links;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    private static function getAllowedMoves(Chess $chess, ?string $from = null): array
-    {
-        $moves = $chess->moves(null === $from ? null : Board::SQUARES[$from] ?? null);
-        $return = [];
-        foreach ($moves as $move) {
-            $return[$move->from][] = (string) $move->san;
-        }
-
-        return $return;
     }
 
     private static function isTurn(Chess $chess, Piece $piece): bool
@@ -75,7 +64,7 @@ abstract class HtmlOutput extends ChessHtmlOutput
     }
 
     /**
-     * @param array<string, array<int, string>> $allowedMoves Moves resulting from self::getAllowedMoves()
+     * @param array<string, array<int, string>> $allowedMoves Moves resulting from Mover::getAllowedMoves()
      */
     private static function canMove(string $from, int $to, array $allowedMoves): bool
     {

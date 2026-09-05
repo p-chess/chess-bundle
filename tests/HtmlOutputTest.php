@@ -10,13 +10,32 @@ final class HtmlOutputTest extends TestCase
     public function testRenderWithoutFrom(): void
     {
         $output = new HtmlOutputStub();
-        self::assertNotNull($output->render(new Chess()));
+        $rendered = $output->render(new Chess());
+        self::assertStringStartsWith('<table', $rendered, 'no move can end here, hence no form is needed');
+        self::assertStringNotContainsString('<button', $rendered);
+        self::assertStringContainsString('<a class="wp" href="start/e2"></a>', $rendered);
     }
 
     public function testRenderWithFrom(): void
     {
         $output = new HtmlOutputStub();
-        self::assertNotNull($output->render(new Chess(), 'e2'));
+        $rendered = $output->render(new Chess(), 'e2');
+        self::assertStringStartsWith('<form method="post">', $rendered);
+        self::assertStringEndsWith('</form>', $rendered);
+        self::assertStringContainsString('<input type="hidden" name="_token" value="a&amp;token">', $rendered);
+        self::assertStringContainsString('<button type="submit" formaction="end/e2/e4"></button>', $rendered);
+        // starting a move and cancelling it are plain links
+        self::assertStringContainsString('<a class="wp" href="cancel"></a>', $rendered);
+    }
+
+    public function testRenderPromotionTargetIsALink(): void
+    {
+        $output = new HtmlOutputStub();
+        $chess = new Chess('rnbqkbnr/pp1ppppp/4P3/8/8/3P1N2/PpP2PPP/RNBQKB1R b KQkq - 0 5');
+        $rendered = $output->render($chess, 'b2');
+        // choosing the promoted piece does not change the game yet
+        self::assertStringStartsWith('<table', $rendered);
+        self::assertStringContainsString('<a class="wr" href="promotion/b2/a1"></a>', $rendered);
     }
 
     public function testRenderPromotion(): void

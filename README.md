@@ -45,11 +45,15 @@ move_promotion:
 
 move_end:
     path: /{id}/move/{from}/{to}/{promotion}
-    methods: GET
+    methods: POST
     controller: ... # your controller action
     defaults:
         promotion: ~
 ```
+
+Note that `move_end` is the only route that actually changes the state of the game, so it must not be
+reachable with a `GET` request. The board renders those squares as submit buttons of a `POST` form
+(see the "CSRF protection" paragraph below); all the other routes only display something, and stay `GET`.
 
 ## Usage
 
@@ -62,13 +66,28 @@ If you need to pass an identifier, use `chess_render(chess, identifier)` instead
 The main service you can use is `\PChess\ChessBundle\SessionChessProvider`.
 This service allows you to keep chess games in session, providing the following methods:
 
-* `getChess($identifier, $fen)` to get main `\PChess\Chess\Chess` instance (as provided by interface)
+* `getChess($identifier, $fen, $history)` to get main `\PChess\Chess\Chess` instance (as provided by interface)
 * `restart($identifier)` to restart the game
-* `save($identifier)` to save the game in session
+* `save($chess, $identifier)` to save the game in session
 * `reverse($identifier)` to switch sides
-* `getAllowedMoves($chess, $from)` to get a list of currently allowed moves (optionally limited to `$from` square)
 
 Using `$identifier` is not mandatory.
+
+To get a list of currently allowed moves (optionally limited to a `$from` square), use the static
+`\PChess\ChessBundle\Mover::getAllowedMoves($chess, $from)`.
+
+### CSRF protection
+
+Since ending a move is a `POST` request, you probably want to protect it with a CSRF token.
+Override the `getHiddenFields()` method of your output service to add any hidden field to the
+form wrapping the board:
+
+```php
+protected function getHiddenFields(mixed $identifier = null): array
+{
+    return ['_token' => $this->csrfTokenManager->getToken('move'.$identifier)->getValue()];
+}
+```
 
 ### Styling
 

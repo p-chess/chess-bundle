@@ -25,4 +25,9 @@ final class HtmlOutputStub extends HtmlOutput
     {
         return 'promotion/'.$from.'/'.$to;
     }
+
+    protected function getHiddenFields(mixed $identifier = null): array
+    {
+        return ['_token' => 'a&token'];
+    }
 }

@@ -1,5 +1,18 @@
 // original image https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_Pieces_Sprite.svg
 // licensed under CC BY-SA 3.0
+// Sprite is a 6x2 grid (k q b n r p, white row then black row), so percentage offsets pick
+// the right cell at any size. Zoom crops the transparent padding around each glyph:
+// above ~1.16 the queen gets clipped.
+
+@use "sass:math";
+
+$chess-pieces: (k: 0, q: 1, b: 2, n: 3, r: 4, p: 5);
+$chess-piece-zoom: 1.12 !default;
+
+// background-position percentage that centres cell $i of $cells, zoomed by $chess-piece-zoom
+@function chess-piece-offset($i, $cells) {
+    @return math.div($i * $chess-piece-zoom + ($chess-piece-zoom - 1) * 0.5, $cells * $chess-piece-zoom - 1) * 100%;
+}
 
 #board {
     margin: 20px auto;
@@ -10,67 +23,33 @@
     td {
         width: 80px;
         height: 80px;
-        padding: 8px 5px 2px;
+        padding: 0;
 
         a, button {
-            width: 70px;
-            height: 70px;
-            display: inline-block;
-            vertical-align: bottom;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             // squares ending a move are submit buttons: strip the browser defaults
             appearance: none;
             border: 0;
             padding: 0;
             font: inherit;
-            background: url(../img/pieces.png) no-repeat -140px -140px;
-            background-size: 430px 140px;
+            background: none no-repeat;
+            background-size: 600% * $chess-piece-zoom 200% * $chess-piece-zoom;
 
-            &.wk {
-                background-position: 0 -4px;
-            }
+            @each $piece, $i in $chess-pieces {
+                &.w#{$piece} {
+                    background-image: url("../img/pieces.png");
+                    background-position: chess-piece-offset($i, 6) chess-piece-offset(0, 2);
+                }
 
-            &.wq {
-                background-position: -72px -4px;
-            }
-
-            &.wb {
-                background-position: -144px -4px;
-            }
-
-            &.wn {
-                background-position: -216px -4px;
-            }
-
-            &.wr {
-                background-position: -287px -4px;
-            }
-
-            &.wp {
-                background-position: -358px -4px;
-            }
-
-            &.bk {
-                background-position: 0 -75px;
-            }
-
-            &.bq {
-                background-position: -72px -75px;
-            }
-
-            &.bb {
-                background-position: -144px -75px;
-            }
-
-            &.bn {
-                background-position: -216px -75px;
-            }
-
-            &.br {
-                background-position: -287px -75px;
-            }
-
-            &.bp {
-                background-position: -358px -75px;
+                &.b#{$piece} {
+                    background-image: url("../img/pieces.png");
+                    background-position: chess-piece-offset($i, 6) chess-piece-offset(1, 2);
+                }
             }
         }
     }
@@ -80,23 +59,22 @@
     }
 
     td.target {
-        position: relative;
-
         a, button {
             cursor: pointer;
 
             &:hover {
                 text-decoration: none;
 
-                &:before {
+                &::before {
                     color: darkred;
                 }
             }
 
-            &:before {
+            &::before {
                 content: "•";
                 color: red;
                 font-size: 3em;
+                line-height: 1;
             }
         }
     }
@@ -125,70 +103,15 @@
     }
 }
 
-@media (max-width: 767.98px) {
+@media (width <= 767.98px) {
     #board {
         td {
             width: 60px;
             height: 60px;
 
             a, button {
-                width: 50px;
-                height: 50px;
-                background-size: 300px 100px;
-
-                &.wq {
-                    background-position: -53px -2px;
-                }
-
-                &.wb {
-                    background-position: -104px -2px;
-                }
-
-                &.wn {
-                    background-position: -153px -2px;
-                }
-
-                &.wr {
-                    background-position: -203px -2px;
-                }
-
-                &.wp {
-                    background-position: -250px -2px;
-                }
-
-                &.bk {
-                    background-position: -2px -53px;
-                }
-
-                &.bq {
-                    background-position: -51px -53px;
-                }
-
-                &.bb {
-                    background-position: -102px -53px;
-                }
-
-                &.bn {
-                    background-position: -151px -53px;
-                }
-
-                &.br {
-                    background-position: -201px -53px;
-                }
-
-                &.bp {
-                    background-position: -248px -53px;
-                }
-            }
-        }
-
-        td.target {
-            a, button {
-                &:before {
-                    position: absolute;
-                    margin-left: -0.2em;
-                    margin-top: -0.2em;
-                }
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -198,7 +121,7 @@
     }
 }
 
-@media (max-width: 575.98px) {
+@media (width <= 575.98px) {
     #board {
         margin-top: 0;
 
@@ -211,67 +134,8 @@
             }
 
             a, button {
-                width: 30px;
-                height: 30px;
-                background-size: 180px 60px;
-
-                &.wk {
-                    background-position: 0 -3px;
-                }
-
-                &.wq {
-                    background-position: -30px -3px;
-                }
-
-                &.wb {
-                    background-position: -60px -3px;
-                }
-
-                &.wn {
-                    background-position: -90px -3px;
-                }
-
-                &.wr {
-                    background-position: -120px -3px;
-                }
-
-                &.wp {
-                    background-position: -149px -3px;
-                }
-
-                &.bk {
-                    background-position: 1px -34px;
-                }
-
-                &.bq {
-                    background-position: -29px -34px;
-                }
-
-                &.bb {
-                    background-position: -59px -34px;
-                }
-
-                &.bn {
-                    background-position: -89px -34px;
-                }
-
-                &.br {
-                    background-position: -119px -34px;
-                }
-
-                &.bp {
-                    background-position: -149px -34px;
-                }
-            }
-
-            &.target {
-                a, button {
-                    &:before {
-                        position: absolute;
-                        margin-left: -0.2em;
-                        margin-top: -0.5em;
-                    }
-                }
+                width: 40px;
+                height: 40px;
             }
         }
     }
@@ -283,54 +147,6 @@
 
         td {
             border: 1px solid #000;
-
-            a, button {
-                background-size: 300px 100px;
-
-                &.wq {
-                    background-position: -53px 0;
-                }
-
-                &.wb {
-                    background-position: -104px 0;
-                }
-
-                &.wn {
-                    background-position: -153px 0;
-                }
-
-                &.wr {
-                    background-position: -203px 0;
-                }
-
-                &.wp {
-                    background-position: -250px 0;
-                }
-
-                &.bk {
-                    background-position: -2px -53px;
-                }
-
-                &.bq {
-                    background-position: -51px -53px;
-                }
-
-                &.bb {
-                    background-position: -102px -53px;
-                }
-
-                &.bn {
-                    background-position: -151px -53px;
-                }
-
-                &.br {
-                    background-position: -201px -53px;
-                }
-
-                &.bp {
-                    background-position: -248px -53px;
-                }
-            }
         }
     }
 }
